@@ -68,8 +68,8 @@ We may update this privacy policy from time to time. Any changes will be posted 
 ## Contact
 
 If you have questions about this privacy policy, please contact:
-- GitHub: [Your GitHub Profile/Repo]
-- Email: [Your Email]
+- GitHub: [jQuery detector](https://github.com/Machacek76/jquery-detector/)
+- Email: [M. Macháček](machacek76@gmail.com)
 
 ## Compliance
 

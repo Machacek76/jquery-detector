@@ -1,0 +1,98 @@
+{
+  "extensionName": {
+    "message": "jQuery Version Detector"
+  },
+  "extensionDescription": {
+    "message": "Detekuje verzi jQuery a odkaz na jQuery soubor na aktuální webové stránce"
+  },
+  "popupTitle": {
+    "message": "jQuery Detector"
+  },
+  "jqueryFound": {
+    "message": "✅ jQuery nalezen!"
+  },
+  "jqueryNotFound": {
+    "message": "❌ jQuery nebyl nalezen"
+  },
+  "versionLabel": {
+    "message": "Verze jQuery"
+  },
+  "versionUnknown": {
+    "message": "⚠️ Verze nedetekována"
+  },
+  "versionUnknownText": {
+    "message": "jQuery bylo nalezeno, ale verzi se nepodařilo automaticky zjistit."
+  },
+  "versionUnknownValue": {
+    "message": "Verze neznámá"
+  },
+  "sourcesLabel": {
+    "message": "Zdroje jQuery"
+  },
+  "statusLabel": {
+    "message": "Stav"
+  },
+  "globalObjectFound": {
+    "message": "✅ jQuery je dostupný jako globální objekt"
+  },
+  "noSourcesFound": {
+    "message": "Na této stránce nebyl nalezen žádný jQuery script nebo odkazy."
+  },
+  "refreshButton": {
+    "message": "🔄 Aktualizovat"
+  },
+  "loading": {
+    "message": "Načítání..."
+  },
+  "updating": {
+    "message": "Aktualizuji..."
+  },
+  "cannotLoadInfo": {
+    "message": "❌ Nelze načíst informace o jQuery"
+  },
+  "sourceTypeScript": {
+    "message": "Script Tag"
+  },
+  "sourceTypeLink": {
+    "message": "Link Tag"
+  },
+  "sourceTypeImport": {
+    "message": "ES6 Import"
+  },
+  "sourceTypeResource": {
+    "message": "Resource"
+  },
+  "bundledJQuery": {
+    "message": "jQuery se pravděpodobně načítá v nějakém build scriptu (webpack, vite, rollup...)."
+  },
+  "statusScriptOnly": {
+    "message": "⚠️ jQuery script nalezen, ale není načten"
+  },
+  "statusPartialLoad": {
+    "message": "⚡ jQuery částečně dostupný"
+  },
+  "statusFullyLoaded": {
+    "message": "✅ jQuery plně načten a funkční"
+  },
+  "statusVersionFromUrl": {
+    "message": "🔗 Verze detekována z URL"
+  },
+  "statusNoGlobalAccess": {
+    "message": "⚠️ jQuery bez globálního přístupu"
+  },
+  "statusDollarOnly": {
+    "message": "💲 Dostupný pouze jako $ (ne jQuery)"
+  },
+  "statusJQueryOnly": {
+    "message": "📚 Dostupné pouze jako jQuery (ne $)"
+  },
+  "statusVersionFromGlobal": {
+    "message": "🎯 Verze z globálního objektu"
+  },
+  "statusVersionFromFallback": {
+    "message": "🔍 Verze z pokročilé detekce"
+  },
+  "feedbackLink": {
+    "message": "💬 Poslat zpětnou vazbu"
+  }
+}

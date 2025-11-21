@@ -1,0 +1,98 @@
+{
+  "extensionName": {
+    "message": "jQuery Version Detector"
+  },
+  "extensionDescription": {
+    "message": "Detects jQuery version and links on current webpage with colored indicators"
+  },
+  "popupTitle": {
+    "message": "jQuery Detector"
+  },
+  "jqueryFound": {
+    "message": "✅ jQuery found!"
+  },
+  "jqueryNotFound": {
+    "message": "❌ jQuery not found"
+  },
+  "versionLabel": {
+    "message": "jQuery Version"
+  },
+  "versionUnknown": {
+    "message": "⚠️ Version not detected"
+  },
+  "versionUnknownText": {
+    "message": "jQuery was found but the version could not be automatically detected."
+  },
+  "versionUnknownValue": {
+    "message": "Version unknown"
+  },
+  "sourcesLabel": {
+    "message": "jQuery Sources"
+  },
+  "statusLabel": {
+    "message": "Status"
+  },
+  "globalObjectFound": {
+    "message": "✅ jQuery available as global object"
+  },
+  "noSourcesFound": {
+    "message": "No jQuery scripts or links were found on this page."
+  },
+  "refreshButton": {
+    "message": "🔄 Refresh"
+  },
+  "loading": {
+    "message": "Loading..."
+  },
+  "updating": {
+    "message": "Updating..."
+  },
+  "cannotLoadInfo": {
+    "message": "❌ Cannot load jQuery information"
+  },
+  "sourceTypeScript": {
+    "message": "Script Tag"
+  },
+  "sourceTypeLink": {
+    "message": "Link Tag"
+  },
+  "sourceTypeImport": {
+    "message": "ES6 Import"
+  },
+  "sourceTypeResource": {
+    "message": "Resource"
+  },
+  "bundledJQuery": {
+    "message": "jQuery is likely loaded in a build script (webpack, vite, rollup...)."
+  },
+  "statusScriptOnly": {
+    "message": "⚠️ jQuery script found but not loaded"
+  },
+  "statusPartialLoad": {
+    "message": "⚡ jQuery partially available"
+  },
+  "statusFullyLoaded": {
+    "message": "✅ jQuery fully loaded and functional"
+  },
+  "statusVersionFromUrl": {
+    "message": "🔗 Version detected from URL"
+  },
+  "statusNoGlobalAccess": {
+    "message": "⚠️ jQuery without global access"
+  },
+  "statusDollarOnly": {
+    "message": "💲 Available only as $ (not jQuery)"
+  },
+  "statusJQueryOnly": {
+    "message": "📚 Available only as jQuery (not $)"
+  },
+  "statusVersionFromGlobal": {
+    "message": "🎯 Version from global object"
+  },
+  "statusVersionFromFallback": {
+    "message": "🔍 Version from advanced detection"
+  },
+  "feedbackLink": {
+    "message": "💬 Send Feedback"
+  }
+}

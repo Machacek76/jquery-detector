@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 400px; /* Dočasně pro screenshot - hodně velké */
+        padding: 15px; /* Větší padding */
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        margin: 0;
+        background-color: #f8f9fa;
+        color: #333;
+      }
+
+      /* Dark mode support - force override */
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #121212 !important;
+          color: #ffffff !important; /* Bílý text pro maximální kontrast */
+        }
+
+        .header {
+          border-bottom-color: #66d9ff !important;
+        }
+
+        .header h1 {
+          color: #ffffff !important;
+          text-shadow: 0 0 3px rgba(102, 217, 255, 0.5) !important;
+        }
+
+        .status.found {
+          background-color: #1b5e20 !important; /* Tmavší pozadí */
+          color: #a5d6a7 !important; /* Velmi světlá zelená */
+          border-color: #4caf50 !important;
+        }
+
+        .status.not-found {
+          background-color: #b71c1c !important; /* Tmavší pozadí */
+          color: #ffcdd2 !important; /* Velmi světlá červená */
+          border-color: #f44336 !important;
+        }
+
+        .info-section h3 {
+          color: #ffffff !important; /* Bílé nadpisy */
+          border-bottom-color: #666 !important;
+          font-weight: 600 !important;
+        }
+
+        .source-item {
+          background-color: #2a2a2a !important; /* Světlejší pozadí */
+          border-color: #777 !important; /* Světlejší border */
+          color: #ffffff !important; /* Bílý text */
+        }
+
+        .source-url {
+          color: #90caf9 !important; /* Světlejší modrá */
+          font-weight: 500 !important;
+        }
+
+        .source-url:hover {
+          color: #bbdefb !important; /* Velmi světlá modrá při hover */
+        }
+
+        .loading {
+          color: #e0e0e0 !important; /* Velmi světlá šedá */
+        }
+
+        .refresh-btn {
+          background-color: #1976d2 !important; /* Tmavší modrá */
+          border: 1px solid #42a5f5 !important;
+          color: #ffffff !important; /* Bílé písmo na tlačítku */
+        }
+
+        .refresh-btn:hover {
+          background-color: #1565c0 !important;
+          border-color: #2196f3 !important;
+          color: #ffffff !important;
+        }
+
+        .source-type {
+          background-color: #424242 !important; /* Světlejší šedá */
+          color: #ffffff !important;
+          font-weight: 600 !important; /* Tučnější font */
+          border: 1px solid #757575 !important;
+        }
+
+        /* Dark mode verze box */
+        .version {
+          color: #ffffff !important;
+          background-color: rgba(66, 165, 245, 0.2) !important;
+          border: 1px solid #42a5f5 !important;
+        }
+
+        /* Dark mode ostatní elementy */
+        .info-section {
+          color: #ffffff !important;
+        }
+
+        .stav-item {
+          color: #ffffff !important;
+        }
+
+        /* Všechny texty v dark mode */
+        * {
+          color: #ffffff !important;
+        }
+
+        /* Speciální barvy pro odkazy a určité elementy */
+        .source-url,
+        a {
+          color: #90caf9 !important;
+        }
+
+        .status.found * {
+          color: #a5d6a7 !important;
+        }
+
+        .status.not-found * {
+          color: #ffcdd2 !important;
+        }
+
+        .extension-version {
+          color: #aaaaaa !important; /* Světlejší šedá v dark mode */
+        }
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #007acc;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 18px;
+        color: #222; /* Tmavší pro lepší kontrast v light mode */
+        font-weight: 600;
+      }
+
+      .status {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .status.found {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .status.not-found {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .info-section {
+        margin-bottom: 15px;
+      }
+
+      .info-section h3 {
+        margin: 0 0 8px 0;
+        font-size: 14px;
+        color: #495057;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 3px;
+      }
+
+      .version {
+        font-size: 16px;
+        font-weight: bold;
+        color: #007acc;
+        background-color: #e7f3ff;
+        padding: 8px;
+        border-radius: 4px;
+        text-align: center;
+      }
+
+      .sources-list {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .source-item {
+        background-color: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 8px;
+        margin-bottom: 5px;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .source-type {
+        background-color: #495057; /* Tmavší pro lepší kontrast */
+        color: white;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 10px;
+        font-weight: 500;
+        display: inline-block;
+        width: fit-content;
+      }
+
+      .source-url {
+        word-break: break-all;
+        color: #007acc;
+        text-decoration: none;
+      }
+
+      .source-url:hover {
+        text-decoration: underline;
+      }
+
+      .loading {
+        text-align: center;
+        color: #6c757d;
+        font-style: italic;
+        padding: 20px;
+      }
+
+      .refresh-btn {
+        background-color: #007acc;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+        font-size: 12px;
+      }
+
+      .refresh-btn:hover {
+        background-color: #0056b3;
+      }
+
+      .extension-version {
+        text-align: center;
+        font-size: 12px;
+        color: #6c757d;
+        margin-top: 8px;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1 id="popupTitle"></h1>
+    </div>
+
+    <div id="content">
+      <div class="loading" id="loadingText"></div>
+    </div>
+
+    <button class="refresh-btn" id="refreshBtn"></button>
+
+    <div class="extension-version" id="extensionVersion"></div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

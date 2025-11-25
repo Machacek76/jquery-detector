@@ -1,0 +1,145 @@
+name: Release
+
+on:
+  # RC build pro tagy typu v1.2.3-rc.1 na libovolné větvi
+  push:
+    tags:
+      - "v*-rc.*"
+  # Ruční spuštění pro vytvoření stable releasu z main
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Type of release (patch, minor, major)"
+        required: true
+        default: "patch"
+
+jobs:
+  rc-build:
+    if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-rc.')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: vars
+        run: |
+          TAG_NAME="${GITHUB_REF##*/}"
+          VERSION="${TAG_NAME#v}"
+          echo "tag=${TAG_NAME}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Set manifest version (RC builds do not touch manifest)
+        run: |
+          echo "RC build for ${{ steps.vars.outputs.tag }} (manifest version remains unchanged)"
+
+      - name: Create extension zip
+        run: |
+          mkdir -p dist
+          zip -r "dist/jquery-detector-${{ steps.vars.outputs.tag }}.zip" src icons LICENSE README.md PRIVACY_POLICY.md CHANGELOG.md -x '*.DS_Store'
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jquery-detector-${{ steps.vars.outputs.tag }}
+          path: dist/*.zip
+
+  release:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get current version from manifest
+        id: manifest
+        run: |
+          VERSION=$(jq -r '.version' src/manifest.json)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Compute next version
+        id: next
+        run: |
+          VERSION="${{ steps.manifest.outputs.version }}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          TYPE="${{ github.event.inputs.release_type }}"
+
+          if [ "$TYPE" = "major" ]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [ "$TYPE" = "minor" ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+
+          NEXT_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "next=${NEXT_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Bump manifest version
+        run: |
+          NEXT="${{ steps.next.outputs.next }}"
+          tmp=$(mktemp)
+          jq --arg v "$NEXT" '.version = $v' src/manifest.json > "$tmp" && mv "$tmp" src/manifest.json
+
+      - name: Update CHANGELOG
+        run: |
+          NEXT="${{ steps.next.outputs.next }}"
+          DATE=$(date +"%Y-%m-%d")
+          tmp=$(mktemp)
+          {
+            echo "## [$NEXT] - $DATE";
+            echo "- Update details here";
+            echo "";
+            cat CHANGELOG.md;
+          } > "$tmp" && mv "$tmp" CHANGELOG.md
+
+      - name: Commit version bump
+        run: |
+          NEXT="${{ steps.next.outputs.next }}"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add src/manifest.json CHANGELOG.md
+          git commit -m "chore(release): v$NEXT" || echo "No changes to commit"
+
+      - name: Create tag
+        run: |
+          NEXT="${{ steps.next.outputs.next }}"
+          git tag -a "v$NEXT" -m "Release v$NEXT"
+
+      - name: Push changes and tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin HEAD:main
+          git push origin --tags
+
+      - name: Create extension zip
+        run: |
+          NEXT="${{ steps.next.outputs.next }}"
+          mkdir -p dist
+          zip -r "dist/jquery-detector-v$NEXT.zip" src icons LICENSE README.md PRIVACY_POLICY.md CHANGELOG.md -x '*.DS_Store'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.next.outputs.next }}
+          name: v${{ steps.next.outputs.next }}
+          body: |
+            Automated release v${{ steps.next.outputs.next }}.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Upload asset to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v{{ steps.next.outputs.next }}
+          files: dist/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

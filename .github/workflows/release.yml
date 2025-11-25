@@ -35,10 +35,10 @@ jobs:
         run: |
           echo "RC build for ${{ steps.vars.outputs.tag }} (manifest version remains unchanged)"
 
-      - name: Create extension zip
+      - name: Create extension zip from src
         run: |
           mkdir -p dist
-          zip -r "dist/jquery-detector-${{ steps.vars.outputs.tag }}.zip" src icons LICENSE README.md PRIVACY_POLICY.md CHANGELOG.md -x '*.DS_Store'
+          (cd src && zip -r "../dist/jquery-detector-${{ steps.vars.outputs.tag }}.zip" . -x '*.DS_Store')
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -120,11 +120,11 @@ jobs:
           git push origin HEAD:main
           git push origin --tags
 
-      - name: Create extension zip
+      - name: Create extension zip from src
         run: |
           NEXT="${{ steps.next.outputs.next }}"
           mkdir -p dist
-          zip -r "dist/jquery-detector-v$NEXT.zip" src icons LICENSE README.md PRIVACY_POLICY.md CHANGELOG.md -x '*.DS_Store'
+          (cd src && zip -r "../dist/jquery-detector-v$NEXT.zip" . -x '*.DS_Store')
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
